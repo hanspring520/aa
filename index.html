@@ -4,75 +4,82 @@
 <meta charset="UTF-8">
 <title>너를 위해 준비한 이벤트</title>
 
+<!-- 둥글둥글 폰트 -->
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+
 <style>
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
     height: 100vh;
+    font-family: 'Nanum Pen Script', cursive;
     overflow: hidden;
 }
 
-/* ⭐ 배경 레이어 */
+/* 배경 */
 .background {
     position: fixed;
     width: 100%;
     height: 100%;
-    background-image: url('222.jpg');
+    background-image: url('01.jpg');
     background-size: cover;
     background-position: center;
     z-index: -2;
     transition: 0.5s;
 }
 
-/* ⭐ 핑크코랄 10% 오버레이 */
+/* 핑크코랄 10% */
 .overlay {
     position: fixed;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 182, 193, 0.1);
+    background-color: rgba(255,182,193,0.1);
     z-index: -1;
 }
 
-/* 가운데 박스 */
+/* 가운데 박스 (세로 줄임) */
 .container {
-    position: relative;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(255,255,255,0.85);
-    padding: 50px;
+    background: rgba(255,255,255,0.85);
+    padding: 30px 50px; /* 세로 줄임 */
     border-radius: 25px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-h1 {
-    line-height: 1.6;
-    margin-bottom: 40px;
+/* 글 밑 코랄핑크 박스 */
+.message-box {
+    background: rgba(255,127,80,0.2);
+    border: 3px solid white;
+    border-radius: 20px;
+    padding: 15px;
+    margin-bottom: 25px;
+    font-size: 28px;
 }
 
+/* 버튼 공통 */
 button {
-    padding: 12px 28px;
-    font-size: 18px;
-    margin: 10px;
-    border: none;
-    border-radius: 30px;
+    padding: 20px 50px; /* 2배 */
+    font-size: 24px;
+    margin: 15px;
+    border-radius: 40px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
+/* Yes 버튼 */
 #yesBtn {
-    background-color: #ff7eb9;
-    color: white;
+    background-color: #ffd1dc; /* 파스텔 핑크 */
+    border: 2px solid #ff69b4; /* 진한 테두리 */
 }
 
-#yesBtn:hover {
-    transform: scale(1.05);
-}
-
+/* No 버튼 */
 #noBtn {
-    background-color: #cccccc;
+    background-color: #cde7ff; /* 파스텔 블루 */
+    border: 2px solid #4a90e2; /* 진한 테두리 */
     position: relative;
 }
 </style>
@@ -84,29 +91,48 @@ button {
 <div class="overlay"></div>
 
 <div class="container">
-    <h1 id="text">
+    <div class="message-box" id="text">
         너는야! <br>
         큐티뽀쨕 귀염둥이 아가야!!
-    </h1>
+    </div>
 
-    <button id="yesBtn" onclick="yesClick()">Yes</button>
-    <button id="noBtn" onmouseover="moveButton()">No</button>
+    <button id="yesBtn" onclick="yesClick()">웅 나는 아가얌</button>
+    <button id="noBtn" onmouseover="moveButton()">난 테토남이다</button>
 </div>
 
 <script>
+let moveCount = 0;
+
 function yesClick() {
-    document.getElementById("bg").style.backgroundImage = "url('111.jpg')";
+    document.getElementById("bg").style.backgroundImage = "url('02.jpg')";
     document.getElementById("text").innerHTML =
-        "아구 이쁜 아가 많이 사랑해ㅐ";
+        "아구 이쁜 아가 많이 사랑해ㅐ 💖";
 }
 
 function moveButton() {
     const button = document.getElementById("noBtn");
-    const x = Math.random() * 200 - 100;
-    const y = Math.random() * 200 - 100;
 
+    moveCount++;
+
+    // 빠르게 랜덤 이동
+    const x = Math.random() * window.innerWidth - 200;
+    const y = Math.random() * window.innerHeight - 200;
+
+    button.style.position = "absolute";
     button.style.left = x + "px";
     button.style.top = y + "px";
+
+    // 5번째부터 점점 작아짐
+    if (moveCount >= 5) {
+        let scale = 1 - (moveCount - 4) * 0.06;
+        if (scale < 0) scale = 0;
+        button.style.transform = "scale(" + scale + ")";
+    }
+
+    // 18번째에 사라짐
+    if (moveCount >= 18) {
+        button.style.display = "none";
+    }
 }
 </script>
 
