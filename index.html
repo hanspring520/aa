@@ -2,17 +2,17 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>너를 위해 준비한 이벤트</title>
 
-<!-- 기본 느낌 + 살짝 둥근 폰트 -->
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
 
 <style>
 body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Gowun Dodum', sans-serif;
     overflow: hidden;
 }
 
@@ -28,59 +28,65 @@ body {
     transition: 0.5s;
 }
 
-/* 핑크코랄 10% */
+/* 오버레이 */
 .overlay {
     position: fixed;
     width: 100%;
     height: 100%;
-    background-color: rgba(255,182,193,0.1);
+    background-color: rgba(255,182,193,0.08);
     z-index: -1;
 }
 
-/* 가운데 박스 (줄임) */
+/* 중앙 */
 .container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(255,255,255,0.9);
-    padding: 20px 35px;
-    border-radius: 18px;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-/* 멘트 박스 (줄임) */
+/* 멘트 박스 */
 .message-box {
-    position: relative;
-    background: rgba(255,127,80,0.2);
-    border: 2px solid white;
-    border-radius: 15px;
-    padding: 10px 15px;
-    margin-bottom: 18px;
+    background: rgba(255,192,203,0.15);
+    border: 3px solid #ff8fb1;
+    border-radius: 20px;
+    padding: 20px 25px 25px 25px;
     font-size: 20px;
+    text-align: center;
 }
 
-/* 버튼 기본 */
+/* 버튼 감싸는 영역 = 이동 제한 구역 */
+.button-wrap {
+    position: relative;   /* ⭐ 기준점 */
+    margin-top: 18px;
+    height: 60px;         /* 버튼이 움직일 공간 확보 */
+}
+
+/* 버튼 공통 */
 button {
-    padding: 8px 18px;
+    width: 140px;
+    height: 42px;
     font-size: 15px;
-    border-radius: 18px;
+    border-radius: 20px;
     cursor: pointer;
     border-width: 2px;
+    transition: 0.2s ease;
 }
 
-/* Yes 버튼 */
+/* Yes */
 #yesBtn {
     background-color: #ffd1dc;
     border: 2px solid #ff69b4;
+    position: absolute;
+    left: 0;
 }
 
-/* No 버튼 (멘트 박스 안에서만 움직임) */
+/* No */
 #noBtn {
     background-color: #cde7ff;
     border: 2px solid #4a90e2;
     position: absolute;
+    right: 0;
 }
 </style>
 </head>
@@ -94,9 +100,11 @@ button {
     <div class="message-box" id="text">
         너는야! <br>
         큐티뽀쨕 귀염둥이 아가야!!
-        <br><br>
-        <button id="yesBtn" onclick="yesClick()">웅 나는 아가얌</button>
-        <button id="noBtn" onmouseover="moveButton()">난 테토남이다</button>
+
+        <div class="button-wrap">
+            <button id="yesBtn" onclick="yesClick()">웅 나는 아가얌</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">난 테토남이다</button>
+        </div>
     </div>
 </div>
 
@@ -110,39 +118,21 @@ function yesClick() {
 }
 
 function moveButton() {
-    const box = document.querySelector(".message-box");
+    const area = document.querySelector(".button-wrap");
     const button = document.getElementById("noBtn");
 
     moveCount++;
 
-    const boxWidth = box.clientWidth;
-    const boxHeight = box.clientHeight;
+    const areaWidth = area.clientWidth;
+    const areaHeight = area.clientHeight;
 
     const btnWidth = button.offsetWidth;
     const btnHeight = button.offsetHeight;
 
-    const maxX = boxWidth - btnWidth - 10;
-    const maxY = boxHeight - btnHeight - 10;
+    const maxX = areaWidth - btnWidth;
+    const maxY = areaHeight - btnHeight;
 
     const x = Math.random() * maxX;
     const y = Math.random() * maxY;
 
     button.style.left = x + "px";
-    button.style.top = y + "px";
-
-    // 5번째부터 점점 작아짐 (천천히)
-    if (moveCount >= 5) {
-        let scale = 1 - (moveCount - 4) * 0.04;
-        if (scale < 0.3) scale = 0.3;
-        button.style.transform = "scale(" + scale + ")";
-    }
-
-    // 18번째 사라짐
-    if (moveCount >= 18) {
-        button.style.display = "none";
-    }
-}
-</script>
-
-</body>
-</html>
