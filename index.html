@@ -1,138 +1,178 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>너를 위해 준비한 이벤트</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>너를 위해 1시간동안 지피티랑 싸우다가 안되서 열받고 인스타 뎀갈겨서 복붙해 만든 이벤트</title>
 
 <style>
-body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    font-family: 'Gowun Dodum', sans-serif;
-    overflow: hidden;
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+button { -webkit-appearance: none; appearance: none; font: inherit; }
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:24px;
+  overflow:hidden;
+
+  background-image:
+    linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+    url("01.jpg");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  transition: background-image .5s ease;
+
+  font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
 }
 
-/* 배경 */
-.background {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-image: url('111.jpg');
-    background-size: cover;
-    background-position: center;
-    z-index: -2;
-    transition: 0.5s;
+.card{
+  width:100%;
+  max-width:420px;
+  background:rgba(255,255,255,.95);
+  border-radius:20px;
+  padding:32px;
+  text-align:center;
+  box-shadow:0 15px 40px rgba(0,0,0,.25);
+  position:relative;
+  z-index:10; /* ✅ 클릭 안 막히게 */
 }
 
-/* 오버레이 */
-.overlay {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255,182,193,0.08);
-    z-index: -1;
+h1{
+  font-size:20px;
+  line-height:1.6;
+  margin:0 0 24px;
 }
 
-/* 중앙 */
-.container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.btn-container{
+  position:relative;
+  width:280px;
+  height:56px;
+  margin:0 auto;
+  touch-action: manipulation; /* ✅ 모바일 탭 반응 개선 */
 }
 
-/* 멘트 박스 */
-.message-box {
-    background: rgba(255,192,203,0.15);
-    border: 3px solid #ff8fb1;
-    border-radius: 20px;
-    padding: 20px 25px 25px 25px;
-    font-size: 20px;
-    text-align: center;
+.btn{
+  position:absolute;
+  top:0;
+  width:120px;
+  height:48px;
+  border:none;
+  border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
+  user-select:none;
+  z-index:20;            /* ✅ 클릭 안 막히게 */
+  pointer-events:auto;   /* ✅ 클릭 안 막히게 */
+  transition: transform .15s ease;
 }
 
-/* 버튼 감싸는 영역 = 이동 제한 구역 */
-.button-wrap {
-    position: relative;   /* ⭐ 기준점 */
-    margin-top: 18px;
-    height: 60px;         /* 버튼이 움직일 공간 확보 */
+.btn:active{ transform:scale(.98); }
+
+.yes{ left:0; background:#ff4d6d; color:#fff; }
+.no { left:160px; background:#d6d6d6; color:#111; }
+
+.result{
+  margin-top:18px;
+  font-size:20px;
+  font-weight:700;
+  color:#ff4d6d;
+  display:none;
 }
 
-/* 버튼 공통 */
-button {
-    width: 140px;
-    height: 42px;
-    font-size: 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    border-width: 2px;
-    transition: 0.2s ease;
+.heart{
+  position:fixed;
+  pointer-events:none;
+  animation: float 2.8s linear forwards;
+  z-index:5;
 }
 
-/* Yes */
-#yesBtn {
-    background-color: #ffd1dc;
-    border: 2px solid #ff69b4;
-    position: absolute;
-    left: 0;
-}
-
-/* No */
-#noBtn {
-    background-color: #cde7ff;
-    border: 2px solid #4a90e2;
-    position: absolute;
-    right: 0;
+@keyframes float{
+  0%{ transform:translateY(0); opacity:1; }
+  100%{ transform:translateY(-300px); opacity:0; }
 }
 </style>
 </head>
 
 <body>
+  <div class="card">
+    <h1>
+      우리 이쁜 아가인 준이는<br>
+      큐티뽀짝귀염둥이 아가 맞죠??
+    </h1>
 
-<div class="background" id="bg"></div>
-<div class="overlay"></div>
-
-<div class="container">
-    <div class="message-box" id="text">
-        너는야! <br>
-        큐티뽀쨕 귀염둥이 아가야!!
-
-        <div class="button-wrap">
-            <button id="yesBtn" onclick="yesClick()">웅 나는 아가얌</button>
-            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">난 테토남이다</button>
-        </div>
+    <div class="btn-container" id="btnArea">
+      <button class="btn yes" id="yesBtn" type="button">Yes</button>
+      <button class="btn no" id="noBtn" type="button">No</button>
     </div>
-</div>
+
+    <div class="result" id="result">❤️ 아구 우리 이쁜 아가 사랑해ㅐ ❤️</div>
+  </div>
 
 <script>
-let moveCount = 0;
+(function () {
+  const yesBtn = document.getElementById("yesBtn") || document.querySelector(".yes");
+  const noBtn  = document.getElementById("noBtn")  || document.querySelector(".no");
+  const btnArea = document.getElementById("btnArea") || document.querySelector(".btn-container");
+  const result = document.getElementById("result");
 
-function yesClick() {
-    document.getElementById("bg").style.backgroundImage = "url('111.jpg')";
-    document.getElementById("text").innerHTML =
-        "아구 이쁜 아가 많이 사랑해ㅐ 💖";
-}
+  if (!yesBtn || !noBtn || !btnArea) {
+    // 요소가 없으면(복붙 실수) 그냥 종료
+    return;
+  }
 
-function moveButton() {
-    const area = document.querySelector(".button-wrap");
-    const button = document.getElementById("noBtn");
+  yesBtn.addEventListener("click", () => {
+    document.body.style.backgroundImage =
+      'linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url("02.jpg")';
+    if (result) result.style.display = "block";
+    createHearts();
+  });
 
-    moveCount++;
+  function createHearts(){
+    for(let i=0;i<20;i++){
+      const h=document.createElement("div");
+      h.className="heart";
+      h.textContent="❤️";
+      h.style.left = (Math.random()*window.innerWidth) + "px";
+      h.style.top  = window.innerHeight + "px";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(), 2800);
+    }
+  }
 
-    const areaWidth = area.clientWidth;
-    const areaHeight = area.clientHeight;
+  function moveNo(){
+    const w = noBtn.offsetWidth || 120;
+    const h = noBtn.offsetHeight || 48;
+    const maxX = btnArea.clientWidth - w;
+    const maxY = btnArea.clientHeight - h;
 
-    const btnWidth = button.offsetWidth;
-    const btnHeight = button.offsetHeight;
+    const x = Math.max(0, Math.random()*maxX);
+    const y = Math.max(0, Math.random()*maxY);
 
-    const maxX = areaWidth - btnWidth;
-    const maxY = areaHeight - btnHeight;
+    noBtn.style.left = x + "px";
+    noBtn.style.top  = y + "px";
+  }
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+  // PC: 올리면 도망
+  noBtn.addEventListener("mouseenter", moveNo);
 
-    button.style.left = x + "px";
+  // 모바일: 누르려는 순간 도망
+  noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    moveNo();
+  }, { passive:false });
+
+  // 클릭도 방지
+  noBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    moveNo();
+  });
+
+})();
+</script>
+</body>
+</html>
