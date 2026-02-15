@@ -4,14 +4,15 @@
 <meta charset="UTF-8">
 <title>너를 위해 준비한 이벤트</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<!-- 기본 느낌 + 살짝 둥근 폰트 -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    font-family: 'Nanum Pen Script', cursive;
+    font-family: 'Noto Sans KR', sans-serif;
     overflow: hidden;
 }
 
@@ -20,14 +21,14 @@ body {
     position: fixed;
     width: 100%;
     height: 100%;
-    background-image: url('01.jpg');
+    background-image: url('111.jpg');
     background-size: cover;
     background-position: center;
     z-index: -2;
     transition: 0.5s;
 }
 
-/* 오버레이 */
+/* 핑크코랄 10% */
 .overlay {
     position: fixed;
     width: 100%;
@@ -36,53 +37,46 @@ body {
     z-index: -1;
 }
 
-/* 가운데 박스 */
+/* 가운데 박스 (줄임) */
 .container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(255,255,255,0.85);
-    padding: 30px 60px;
-    border-radius: 25px;
+    background: rgba(255,255,255,0.9);
+    padding: 20px 35px;
+    border-radius: 18px;
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-/* 멘트 박스 */
+/* 멘트 박스 (줄임) */
 .message-box {
-    background: rgba(255,127,80,0.2);
-    border: 3px solid white;
-    border-radius: 20px;
-    padding: 15px;
-    margin-bottom: 25px;
-    font-size: 28px;
-}
-
-/* 버튼 줄 */
-.button-row {
     position: relative;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-/* 버튼 공통 (중간 사이즈) */
-button {
-    padding: 14px 35px;
+    background: rgba(255,127,80,0.2);
+    border: 2px solid white;
+    border-radius: 15px;
+    padding: 10px 15px;
+    margin-bottom: 18px;
     font-size: 20px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: 0.2s;
 }
 
-/* Yes 고정 */
+/* 버튼 기본 */
+button {
+    padding: 8px 18px;
+    font-size: 15px;
+    border-radius: 18px;
+    cursor: pointer;
+    border-width: 2px;
+}
+
+/* Yes 버튼 */
 #yesBtn {
     background-color: #ffd1dc;
     border: 2px solid #ff69b4;
 }
 
-/* No 움직임용 */
+/* No 버튼 (멘트 박스 안에서만 움직임) */
 #noBtn {
     background-color: #cde7ff;
     border: 2px solid #4a90e2;
@@ -100,9 +94,7 @@ button {
     <div class="message-box" id="text">
         너는야! <br>
         큐티뽀쨕 귀염둥이 아가야!!
-    </div>
-
-    <div class="button-row" id="buttonArea">
+        <br><br>
         <button id="yesBtn" onclick="yesClick()">웅 나는 아가얌</button>
         <button id="noBtn" onmouseover="moveButton()">난 테토남이다</button>
     </div>
@@ -112,24 +104,25 @@ button {
 let moveCount = 0;
 
 function yesClick() {
-    document.getElementById("bg").style.backgroundImage = "url('01.jpg')";
+    document.getElementById("bg").style.backgroundImage = "url('111.jpg')";
     document.getElementById("text").innerHTML =
         "아구 이쁜 아가 많이 사랑해ㅐ 💖";
 }
 
 function moveButton() {
+    const box = document.querySelector(".message-box");
     const button = document.getElementById("noBtn");
-    const area = document.getElementById("buttonArea");
 
     moveCount++;
 
-    const areaRect = area.getBoundingClientRect();
+    const boxWidth = box.clientWidth;
+    const boxHeight = box.clientHeight;
+
     const btnWidth = button.offsetWidth;
     const btnHeight = button.offsetHeight;
 
-    // 영역 안에서만 랜덤 이동
-    const maxX = area.offsetWidth - btnWidth;
-    const maxY = 120; // 세로 이동 제한 (너무 위아래 안 튀게)
+    const maxX = boxWidth - btnWidth - 10;
+    const maxY = boxHeight - btnHeight - 10;
 
     const x = Math.random() * maxX;
     const y = Math.random() * maxY;
@@ -137,14 +130,14 @@ function moveButton() {
     button.style.left = x + "px";
     button.style.top = y + "px";
 
-    // 5번째부터 점점 작아짐
+    // 5번째부터 점점 작아짐 (천천히)
     if (moveCount >= 5) {
-        let scale = 1 - (moveCount - 4) * 0.05;
-        if (scale < 0.2) scale = 0.2;
+        let scale = 1 - (moveCount - 4) * 0.04;
+        if (scale < 0.3) scale = 0.3;
         button.style.transform = "scale(" + scale + ")";
     }
 
-    // 18번째에 사라짐
+    // 18번째 사라짐
     if (moveCount >= 18) {
         button.style.display = "none";
     }
